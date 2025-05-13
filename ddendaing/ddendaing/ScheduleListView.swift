@@ -33,6 +33,7 @@ struct ScheduleListView: View {
     
     @State var seletedAirport: String = "김해국제공항"
     @State var seletedAirline: Flight?
+    @State private var showAlert = false
     
     var airportNames: [String] = [
         "인천국제공항",
@@ -91,53 +92,61 @@ struct ScheduleListView: View {
                                 Text(airport)
                             }
                         }
-                        
-//                        .onChange(of: seletedAirport) { newValue in
-//                            viewModel.airportName = newValue
-//                            Task {
-//                                await viewModel.fetchFlights()
-//                            }
-//                        }
                     }
                     .padding()
 
+                    //MARK: - 상단 주시 항공편 블록
                     VStack(alignment: .leading){
                         if let tmpAirline = seletedAirline{
-                            HStack{
-                                Text(tmpAirline.airline)
-                                Text(tmpAirline.flightNumber)
-                            }
-                            HStack{
-                                
-                                Text("\(tmpAirline.destination ?? "⚠️")행")
-                                    .font(.subheadline)
-                            
-                                Text("출발시간: \(tmpAirline.etd.prefix(2)):\(tmpAirline.etd.suffix(2))")
-                                    .font(.subheadline)
-                                Text("탑승구: \(tmpAirline.gate ?? "⚠️")")
-                                    .font(.subheadline)
-                                if let status = tmpAirline.status {
-                                    Text(status)
-                                        .font(.caption)
-                                        .foregroundColor(status.contains("사전결항") ? .orange : .blue)
+                            VStack(alignment: .leading){
+                                HStack(alignment: .bottom){
+                                    Text(tmpAirline.airline)
+                                        .font(.title2)
+                                        .foregroundStyle(.white)
+                                        
+                                    Text(tmpAirline.flightNumber)
+                                        .foregroundStyle(.white)
+                                        
                                 }
-                                //시간
-                                //목적지
-                                //탑승구
+                                .fontWeight(.heavy)
+                                
+                                HStack{
+                                    
+                                    Text("\(tmpAirline.destination ?? "⚠️") 행")
+                                        .foregroundStyle(.white)
+                                        .font(.subheadline)
+                                
+                                    Text("출발시간: \(tmpAirline.etd.prefix(2)):\(tmpAirline.etd.suffix(2))")
+                                        .font(.subheadline)
+                                        .foregroundStyle(.white)
+                                    Text("탑승구: \(tmpAirline.gate ?? "⚠️")")
+                                        .font(.subheadline)
+                                        .foregroundStyle(.white)
+                                    if let status = tmpAirline.status {
+                                        Text(status)
+                                            .font(.caption)
+                                            .foregroundColor(status.contains("사전결항") ? .orange : .blue)
+                                    }
+                                }
+                                .fontWeight(.heavy)
                             }
+                            
                             
                         }else{
                             Text("저장된 항공편이 없습니다.")
+                                .foregroundStyle(.white)
                                 .font(.title2)
+                                .fontWeight(.heavy)
                         }
-                        
-                        
                     }
-                    .frame(maxWidth: .infinity, maxHeight: 140)
-                    .background(.green)
-                    .cornerRadius(30)
-                    .padding()
                     
+                    .frame(maxWidth: .infinity, maxHeight: 140)
+                    .background(.blue)
+                    .cornerRadius(15)
+                    .padding(8)
+                    
+                    
+                    //MARK: - 항공편 리스트
                     List(viewModel.flights) { flight in
                         VStack(alignment: .leading) {
                             HStack(spacing: 4) {
@@ -149,12 +158,19 @@ struct ScheduleListView: View {
                                 Button(action: {
                                     seletedAirline = flight
                                 }){
-                                    Image(systemName: "star")
+                                    if seletedAirline?.flightNumber == flight.flightNumber {
+                                       Image(systemName: "star.fill")
+                                    }else{
+                                        Image(systemName: "star")
+                                    }
                                 }
+                                
                             }
+                            
                             HStack{
                                 Text("\(flight.destination ?? "⚠️")")
                                     .font(.subheadline)
+                                    .fontWeight(.bold)
                                 
                                 if flight.std == flight.etd {
                                     Text("\(flight.std)")
@@ -173,6 +189,8 @@ struct ScheduleListView: View {
                                 
                                 Text("탑승구: \(flight.gate ?? "⚠️")")
                                     .font(.subheadline)
+                                    
+                                
                                 if let status = flight.status {
                                     Text(status)
                                         .font(.caption)
