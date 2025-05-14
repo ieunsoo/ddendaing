@@ -43,10 +43,9 @@ struct ScheduleListView: View {
         "무안국제공항",
         "양양국제공항",
         "청주국제공항",
-        "대구국제공항"
-//      ,
+        "대구국제공항",
+        "포항경주공항"
 //        "원주공항",
-//        "포항경주공항",
 //        "울산공항",
 //        "사천공항",
 //        "군산공항",
@@ -56,14 +55,22 @@ struct ScheduleListView: View {
     
     func printAirportName(IATA: String) -> String{
         var airportName: String = ""
-        
+        /*
+         "인천국제공항",
+         "김포국제공항",
+         "김해국제공항",
+         "제주국제공항",
+         "무안국제공항",
+         "양양국제공항",
+         "청주국제공항",
+         "대구국제공항",
+         "포항경주공항"
+         */
         switch IATA {
         case "ICN":
             airportName = "인천국제공항"
         case "GMP":
             airportName = "김포국제공항"
-        case "TAE":
-            airportName = "대구국제공항"
         case "PUS":
             airportName = "김해국제공항"
         case "CJU":
@@ -72,11 +79,46 @@ struct ScheduleListView: View {
             airportName = "무안국제공항"
         case "YNY":
             airportName = "양양국제공항"
+        case "CJJ":
+            airportName = "청주국제공항"
+        case "TAE":
+            airportName = "대구국제공항"
+        case "KPO":
+            airportName = "포항경주공항"
         default:
             airportName = "알 수 없는 공항"
         }
         
         return airportName
+    }
+    func printIATA(airportName: String) -> String{
+        var airportIATA: String = ""
+        
+        switch airportName {
+        case "인천국제공항":
+            airportIATA = "ICN"
+        case "김포국제공항":
+            airportIATA = "GMP"
+        case "김해국제공항":
+            airportIATA = "PUS"
+        case "제주국제공항":
+            airportIATA = "CJU"
+        case "무안국제공항":
+            airportIATA = "MWX"
+        case "양양국제공항":
+            airportIATA = "YNY"
+        case "청주국제공항":
+            airportIATA = "CJJ"
+        case "대구국제공항":
+            airportIATA = "TAE"
+        case "포항경주공항":
+            airportIATA = "KPO"
+        default:
+            airportIATA = "PUS"
+        }
+        
+        
+        return airportIATA
     }
     
     var body: some View {
@@ -91,6 +133,11 @@ struct ScheduleListView: View {
                             ForEach(airportNames, id: \.self) { airport in
                                 Text(airport)
                             }
+                        }.onChange(of: seletedAirport){
+                            viewModel.airportName = printIATA(airportName: $0)
+                            
+                        }.task {
+                            await viewModel.fetchFlights()
                         }
                     }
                     .padding()
@@ -103,15 +150,12 @@ struct ScheduleListView: View {
                                     Text(tmpAirline.airline)
                                         .font(.title2)
                                         .foregroundStyle(.white)
-                                        
                                     Text(tmpAirline.flightNumber)
                                         .foregroundStyle(.white)
-                                        
                                 }
                                 .fontWeight(.heavy)
                                 
                                 HStack{
-                                    
                                     Text("\(tmpAirline.destination ?? "⚠️") 행")
                                         .foregroundStyle(.white)
                                         .font(.subheadline)
@@ -119,9 +163,11 @@ struct ScheduleListView: View {
                                     Text("출발시간: \(tmpAirline.etd.prefix(2)):\(tmpAirline.etd.suffix(2))")
                                         .font(.subheadline)
                                         .foregroundStyle(.white)
+                                    
                                     Text("탑승구: \(tmpAirline.gate ?? "⚠️")")
                                         .font(.subheadline)
                                         .foregroundStyle(.white)
+                                    
                                     if let status = tmpAirline.status {
                                         Text(status)
                                             .font(.caption)

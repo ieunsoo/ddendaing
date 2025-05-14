@@ -11,13 +11,43 @@ import Foundation
 class FlightViewModel: ObservableObject {
     @Published var flights: [Flight] = []
     
-    
-    
-    
     var airportName: String = "GMP"
-    var actDate: String = "20250513"
-    var stHourMin: String = "1000"
-    var enHourMin: String = "1900"
+    var actDate: String = "20250514"
+    var stHourMin: String
+    var enHourMin: String
+    
+    init(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HHmm"  // 24시간제 시분 형식
+        let now = Date()
+
+        // 현재 시간
+        let currentTime = formatter.string(from: now)
+
+        // Calendar 사용
+        let calendar = Calendar.current
+
+        // -3시간 계산
+        let minus3 = calendar.date(byAdding: .hour, value: -3, to: now)!
+        let isPrevDay = !calendar.isDate(minus3, inSameDayAs: now)
+        let finalMinus3 = isPrevDay
+            ? calendar.date(bySettingHour: 0, minute: 0, second: 0, of: now)!
+            : minus3
+        let timeMinus3 = formatter.string(from: finalMinus3)
+
+        // +3시간 계산
+        let plus3 = calendar.date(byAdding: .hour, value: 3, to: now)!
+        let isNextDay = !calendar.isDate(plus3, inSameDayAs: now)
+        let finalPlus3 = isNextDay
+            ? calendar.date(bySettingHour: 23, minute: 59, second: 0, of: now)!
+            : plus3
+        let timePlus3 = formatter.string(from: finalPlus3)
+
+        print("\(timeMinus3) ~ \(timePlus3)")
+
+        self.stHourMin = timeMinus3
+        self.enHourMin = timePlus3
+    }
     
     func nowtime() -> Int {
         let formatter = DateFormatter()
@@ -49,7 +79,7 @@ class FlightViewModel: ObservableObject {
             let decoder = JSONDecoder()
             let decodedResponse = try decoder.decode(FlightListResponse.self, from: data)
             self.flights = decodedResponse.data.list
-            print(self.flights)
+//            print(self.flights)
             
         } catch {
 //            print("❌ 디코딩 실패: \(error)")
