@@ -16,7 +16,7 @@ class FlightViewModel: ObservableObject {
     
     var airportName: String = "GMP"
     var actDate: String = "20250513"
-    var stHourMin: String = "1600"
+    var stHourMin: String = "1000"
     var enHourMin: String = "1900"
     
     func nowtime() -> Int {

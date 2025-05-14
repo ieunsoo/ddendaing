@@ -173,17 +173,17 @@ struct ScheduleListView: View {
                                     .fontWeight(.bold)
                                 
                                 if flight.std == flight.etd {
-                                    Text("\(flight.std)")
+                                    Text("\(flight.etd.prefix(2)):\(flight.etd.suffix(2))")
                                         .font(.subheadline)
                                 }else{
 //                                    Text("출발시간 :")
 //                                        .font(.subheadline)
-                                    Text("\(flight.std)")
+                                    Text("\(flight.std.prefix(2)):\(flight.std.suffix(2))")
                                         .font(.subheadline)
                                         .strikethrough()
                                         .foregroundStyle(.gray)
                                     
-                                    Text("→  \(flight.etd)")
+                                    Text("→  \(flight.etd.prefix(2)):\(flight.etd.suffix(2))")
                                         .font(.subheadline)
                                 }
                                 
