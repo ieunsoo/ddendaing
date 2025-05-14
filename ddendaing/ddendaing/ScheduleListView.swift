@@ -135,9 +135,9 @@ struct ScheduleListView: View {
                             }
                         }.onChange(of: seletedAirport){
                             viewModel.airportName = printIATA(airportName: $0)
-                            
-                        }.task {
-                            await viewModel.fetchFlights()
+                            Task{
+                                await viewModel.fetchFlights()
+                            }
                         }
                     }
                     .padding()

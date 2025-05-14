@@ -11,7 +11,7 @@ import Foundation
 class FlightViewModel: ObservableObject {
     @Published var flights: [Flight] = []
     
-    var airportName: String = "GMP"
+    var airportName: String = "PUS"
     var actDate: String = "20250514"
     var stHourMin: String
     var enHourMin: String
