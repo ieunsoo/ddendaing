@@ -36,15 +36,16 @@ struct ScheduleListView: View {
     @State private var showAlert = false
     
     var airportNames: [String] = [
-        "인천국제공항",
+//        "인천국제공항",
         "김포국제공항",
         "김해국제공항",
         "제주국제공항",
-        "무안국제공항",
-        "양양국제공항",
+//        "무안국제공항",
+//        "양양국제공항",
         "청주국제공항",
         "대구국제공항",
-        "포항경주공항"
+//        "포항경주공항"
+        
 //        "원주공항",
 //        "울산공항",
 //        "사천공항",
@@ -142,8 +143,19 @@ struct ScheduleListView: View {
                     }
                     .padding()
 
+                    
+                    
                     //MARK: - 상단 주시 항공편 블록
-                    VStack(alignment: .leading){
+                    ZStack(alignment: .leading){
+//                        ZStack{
+//                            Button(action: {
+//                                seletedAirline = nil
+//                            }, label: {
+//                                Image(systemName: "star.fill")
+//                                    .foregroundStyle(.white)
+//                            })
+//                        }.frame(maxWidth: .infinity)
+                        
                         if let tmpAirline = seletedAirline{
                             VStack(alignment: .leading){
                                 HStack(alignment: .bottom){
@@ -178,6 +190,7 @@ struct ScheduleListView: View {
                             }
                             
                             
+                            
                         }else{
                             Text("저장된 항공편이 없습니다.")
                                 .foregroundStyle(.white)
@@ -185,12 +198,18 @@ struct ScheduleListView: View {
                                 .fontWeight(.heavy)
                         }
                     }
-                    
                     .frame(maxWidth: .infinity, maxHeight: 140)
                     .background(.blue)
                     .cornerRadius(15)
                     .padding(8)
-                    
+                    .onTapGesture {
+                        showAlert.toggle()
+                        
+                    }.alert("저장된 항공편을 삭제합니다.", isPresented: $showAlert) {
+                        Button("Delete", role: .destructive) {
+                            seletedAirline = nil
+                        }
+                      }
                     
                     //MARK: - 항공편 리스트
                     List(viewModel.flights) { flight in

@@ -12,41 +12,51 @@ class FlightViewModel: ObservableObject {
     @Published var flights: [Flight] = []
     
     var airportName: String = "PUS"
-    var actDate: String = "20250514"
+    var actDate: String
     var stHourMin: String
     var enHourMin: String
     
     init(){
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HHmm"  // 24시간제 시분 형식
         let now = Date()
-
-        // 현재 시간
-        let currentTime = formatter.string(from: now)
-
-        // Calendar 사용
         let calendar = Calendar.current
 
-        // -3시간 계산
-        let minus3 = calendar.date(byAdding: .hour, value: -3, to: now)!
-        let isPrevDay = !calendar.isDate(minus3, inSameDayAs: now)
-        let finalMinus3 = isPrevDay
+        // MARK: - Date Formatters
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HHmm"  // 24시간제 시분 형식
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        
+        // MARK: - 현재 시간
+        let currentTimeHHmm = timeFormatter.string(from: now)
+
+        // MARK: - -3시간 계산 (이전 날짜면 0000 고정)
+        let threeHoursBefore = calendar.date(byAdding: .hour, value: -2, to: now)!
+        let isBeforeToday = !calendar.isDate(threeHoursBefore, inSameDayAs: now)
+        let adjustedMinusDate = isBeforeToday
             ? calendar.date(bySettingHour: 0, minute: 0, second: 0, of: now)!
-            : minus3
-        let timeMinus3 = formatter.string(from: finalMinus3)
+            : threeHoursBefore
+        let startHourMinute = timeFormatter.string(from: adjustedMinusDate)
 
-        // +3시간 계산
-        let plus3 = calendar.date(byAdding: .hour, value: 3, to: now)!
-        let isNextDay = !calendar.isDate(plus3, inSameDayAs: now)
-        let finalPlus3 = isNextDay
+        // MARK: - +3시간 계산 (다음 날짜면 2359 고정)
+        let threeHoursLater = calendar.date(byAdding: .hour, value: 3, to: now)!
+        let isAfterToday = !calendar.isDate(threeHoursLater, inSameDayAs: now)
+        let adjustedPlusDate = isAfterToday
             ? calendar.date(bySettingHour: 23, minute: 59, second: 0, of: now)!
-            : plus3
-        let timePlus3 = formatter.string(from: finalPlus3)
+            : threeHoursLater
+        let endHourMinute = timeFormatter.string(from: adjustedPlusDate)
 
-        print("\(timeMinus3) ~ \(timePlus3)")
+        // MARK: - 오늘 날짜 (yyyyMMdd 형식)
+        let activeDate = dateFormatter.string(from: now)
 
-        self.stHourMin = timeMinus3
-        self.enHourMin = timePlus3
+        // 디버그 출력
+        print("\(startHourMinute) ~ \(endHourMinute)")
+
+        // 저장
+        self.stHourMin = startHourMinute
+        self.enHourMin = endHourMinute
+        self.actDate = activeDate
+        
     }
     
     func nowtime() -> Int {
