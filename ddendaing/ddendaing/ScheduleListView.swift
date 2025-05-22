@@ -188,14 +188,18 @@ struct ScheduleListView: View {
                                 }
                                 .fontWeight(.heavy)
                             }
+                            .padding()
                             
                             
                             
                         }else{
-                            Text("저장된 항공편이 없습니다.")
-                                .foregroundStyle(.white)
-                                .font(.title2)
-                                .fontWeight(.heavy)
+                            HStack{
+                                Text("저장된 항공편이 없습니다.")
+                                    .foregroundStyle(.white)
+                                    .font(.title2)
+                                    .fontWeight(.heavy)
+                            }
+                            .padding()
                         }
                     }
                     .frame(maxWidth: .infinity, maxHeight: 140)

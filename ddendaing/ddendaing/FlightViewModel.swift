@@ -33,17 +33,13 @@ class FlightViewModel: ObservableObject {
         // MARK: - -3시간 계산 (이전 날짜면 0000 고정)
         let threeHoursBefore = calendar.date(byAdding: .hour, value: -2, to: now)!
         let isBeforeToday = !calendar.isDate(threeHoursBefore, inSameDayAs: now)
-        let adjustedMinusDate = isBeforeToday
-            ? calendar.date(bySettingHour: 0, minute: 0, second: 0, of: now)!
-            : threeHoursBefore
+        let adjustedMinusDate = isBeforeToday ? calendar.date(bySettingHour: 0, minute: 0, second: 0, of: now)! : threeHoursBefore
         let startHourMinute = timeFormatter.string(from: adjustedMinusDate)
 
         // MARK: - +3시간 계산 (다음 날짜면 2359 고정)
         let threeHoursLater = calendar.date(byAdding: .hour, value: 3, to: now)!
         let isAfterToday = !calendar.isDate(threeHoursLater, inSameDayAs: now)
-        let adjustedPlusDate = isAfterToday
-            ? calendar.date(bySettingHour: 23, minute: 59, second: 0, of: now)!
-            : threeHoursLater
+        let adjustedPlusDate = isAfterToday ? calendar.date(bySettingHour: 23, minute: 59, second: 0, of: now)! : threeHoursLater
         let endHourMinute = timeFormatter.string(from: adjustedPlusDate)
 
         // MARK: - 오늘 날짜 (yyyyMMdd 형식)
@@ -91,11 +87,7 @@ class FlightViewModel: ObservableObject {
             self.flights = decodedResponse.data.list
 //            print(self.flights)
             
-        } catch {
-//            print("❌ 디코딩 실패: \(error)")
-//            print("📦 응답 원문:\n", String(data: data, encoding: .utf8) ?? "데이터 없음")
-            
-            print("❌ 데이터 불러오기 실패: \(error.localizedDescription)")
+        } catch {print("❌ 데이터 불러오기 실패: \(error.localizedDescription)")
         }
     }
 }
