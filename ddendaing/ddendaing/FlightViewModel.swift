@@ -31,13 +31,13 @@ class FlightViewModel: ObservableObject {
         let currentTimeHHmm = timeFormatter.string(from: now)
 
         // MARK: - -3시간 계산 (이전 날짜면 0000 고정)
-        let threeHoursBefore = calendar.date(byAdding: .hour, value: -2, to: now)!
+        let threeHoursBefore = calendar.date(byAdding: .hour, value: -1, to: now)!
         let isBeforeToday = !calendar.isDate(threeHoursBefore, inSameDayAs: now)
         let adjustedMinusDate = isBeforeToday ? calendar.date(bySettingHour: 0, minute: 0, second: 0, of: now)! : threeHoursBefore
         let startHourMinute = timeFormatter.string(from: adjustedMinusDate)
 
         // MARK: - +3시간 계산 (다음 날짜면 2359 고정)
-        let threeHoursLater = calendar.date(byAdding: .hour, value: 3, to: now)!
+        let threeHoursLater = calendar.date(byAdding: .hour, value: 4, to: now)!
         let isAfterToday = !calendar.isDate(threeHoursLater, inSameDayAs: now)
         let adjustedPlusDate = isAfterToday ? calendar.date(bySettingHour: 23, minute: 59, second: 0, of: now)! : threeHoursLater
         let endHourMinute = timeFormatter.string(from: adjustedPlusDate)
