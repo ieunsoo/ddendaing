@@ -1,32 +1,4 @@
-//
-//  ScheduleListView.swift
-//  KoreaAirportInfo
-//
-//  Created by eunsoo on 5/11/25.
-//
-
 import SwiftUI
-
-/*
- 국제공항
- 인천국제공항: ICN
- 김포국제공항: GMP[5]
- 김해국제공항: PUS[6]
- 제주국제공항: CJU
- 무안국제공항: MWX
- 양양국제공항: YNY
- 청주국제공항: CJJ
- 대구국제공항: TAE
- 
- 국내선 공항
- 원주공항: WJU
- 포항경주공항: KPO
- 울산공항: USN
- 사천공항: HIN[7]
- 군산공항: KUV
- 광주공항: KWJ
- 여수공항: RSU
- */
 
 struct ScheduleListView: View {
     @StateObject var viewModel = FlightViewModel()
@@ -35,8 +7,9 @@ struct ScheduleListView: View {
     @State var seletedAirline: Flight?
     @State private var showAlert = false
     
+    ///picker에서 선택하기 위한 공항 종류 리스트
     var airportNames: [String] = [
-//        "인천국제공항",
+        "인천국제공항",
         "김포국제공항",
         "김해국제공항",
         "제주국제공항",
@@ -54,6 +27,7 @@ struct ScheduleListView: View {
 //        "여수공항"
     ]
     
+    /// IATA코드를 한글공항이름으로 변경해주는 함수
     func printAirportName(IATA: String) -> String{
         var airportName: String = ""
         /*
@@ -92,6 +66,8 @@ struct ScheduleListView: View {
         
         return airportName
     }
+    
+    /// 한글공항이름을 IATA코드로 변경해주는 함수
     func printIATA(airportName: String) -> String{
         var airportIATA: String = ""
         
@@ -126,94 +102,37 @@ struct ScheduleListView: View {
             NavigationView {
                 VStack(alignment: .leading, spacing: 0) {
                     VStack(alignment: .leading, spacing: 8) {
+                        
+                        //MARK: title
                         Text("\(printAirportName(IATA: viewModel.airportName))")
                             .font(.largeTitle)
                             .fontWeight(.heavy)
                         
-                        Picker("공항 선택", selection: $seletedAirport) {
-                            ForEach(airportNames, id: \.self) { airport in
-                                Text(airport)
+                        //MARK: Toolbar
+                        HStack{
+                            Picker("공항 선택", selection: $seletedAirport) {
+                                ForEach(airportNames, id: \.self) { airport in
+                                    Text(airport)
+                                }
+                            }.onChange(of: seletedAirport){
+                                viewModel.airportName = printIATA(airportName: $0)
+                                Task{
+                                    await viewModel.fetchFlights()
+                                }
                             }
-                        }.onChange(of: seletedAirport){
-                            viewModel.airportName = printIATA(airportName: $0)
-                            Task{
-                                await viewModel.fetchFlights()
+                            Spacer()
+                            Button("새로고침"){
+                                Task{
+                                    await viewModel.fetchFlights()
+                                }
                             }
                         }
                     }
                     .padding()
 
                     
+                    FocusBlock(seletedAirline: $seletedAirline, showAlert: $showAlert)
                     
-                    //MARK: - 상단 주시 항공편 블록
-                    ZStack(alignment: .leading){
-//                        ZStack{
-//                            Button(action: {
-//                                seletedAirline = nil
-//                            }, label: {
-//                                Image(systemName: "star.fill")
-//                                    .foregroundStyle(.white)
-//                            })
-//                        }.frame(maxWidth: .infinity)
-                        
-                        if let tmpAirline = seletedAirline{
-                            VStack(alignment: .leading){
-                                HStack(alignment: .bottom){
-                                    Text(tmpAirline.airline)
-                                        .font(.title2)
-                                        .foregroundStyle(.white)
-                                    Text(tmpAirline.flightNumber)
-                                        .foregroundStyle(.white)
-                                }
-                                .fontWeight(.heavy)
-                                
-                                HStack{
-                                    Text("\(tmpAirline.destination ?? "⚠️") 행")
-                                        .foregroundStyle(.white)
-                                        .font(.subheadline)
-                                
-                                    Text("출발시간: \(tmpAirline.etd.prefix(2)):\(tmpAirline.etd.suffix(2))")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.white)
-                                    
-                                    Text("탑승구: \(tmpAirline.gate ?? "⚠️")")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.white)
-                                    
-                                    if let status = tmpAirline.status {
-                                        Text(status)
-                                            .font(.caption)
-                                            .foregroundColor(status.contains("사전결항") ? .orange : .blue)
-                                    }
-                                }
-                                .fontWeight(.heavy)
-                            }
-                            .padding()
-                            
-                            
-                            
-                        }else{
-                            HStack{
-                                Text("저장된 항공편이 없습니다.")
-                                    .foregroundStyle(.white)
-                                    .font(.title2)
-                                    .fontWeight(.heavy)
-                            }
-                            .padding()
-                        }
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: 140)
-                    .background(.blue)
-                    .cornerRadius(15)
-                    .padding(8)
-                    .onTapGesture {
-                        showAlert.toggle()
-                        
-                    }.alert("저장된 항공편을 삭제합니다.", isPresented: $showAlert) {
-                        Button("Delete", role: .destructive) {
-                            seletedAirline = nil
-                        }
-                      }
                     
                     //MARK: - 항공편 리스트
                     List(viewModel.flights) { flight in

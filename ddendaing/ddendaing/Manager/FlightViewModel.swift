@@ -55,6 +55,7 @@ class FlightViewModel: ObservableObject {
         
     }
     
+    //현재시간을 HHmm 포맷으로 출력해주는 함수
     func nowtime() -> Int {
         let formatter = DateFormatter()
         formatter.dateFormat = "HHmm"
@@ -68,7 +69,11 @@ class FlightViewModel: ObservableObject {
     }
     
     func fetchFlights() async {
-        guard let url = URL(string: "https://www.airport.co.kr/gimpo/ajaxf/frPryInfoSvc/getPryInfoList.do?pInoutGbn=O&pAirport=\(airportName.description)&pActDate=\(actDate.description)&pSthourMin=\(stHourMin.description)&pEnhourMin=\(enHourMin.description)") else {
+//        guard let url = URL(string: "https://www.airport.co.kr/gimpo/ajaxf/frPryInfoSvc/getPryInfoList.do?pInoutGbn=O&pAirport=\(airportName.description)&pActDate=\(actDate.description)&pSthourMin=\(stHourMin.description)&pEnhourMin=\(enHourMin.description)") else {
+//            print("❌ 잘못된 URL입니다.")
+//            return
+//        }
+        guard let url = URL(string: "https://www.airport.co.kr/gimpo/ajaxf/frPryInfoSvc/getPryInfoList.do?pInoutGbn=O&pAirport=ICN&pActDate=20250830&pSthourMin=\(1000)&pEnhourMin=\(2000)") else {
             print("❌ 잘못된 URL입니다.")
             return
         }
@@ -85,7 +90,7 @@ class FlightViewModel: ObservableObject {
             let decoder = JSONDecoder()
             let decodedResponse = try decoder.decode(FlightListResponse.self, from: data)
             self.flights = decodedResponse.data.list
-//            print(self.flights)
+            print("flights datas", self.flights)
             
         } catch {print("❌ 데이터 불러오기 실패: \(error.localizedDescription)")
         }
