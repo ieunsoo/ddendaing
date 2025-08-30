@@ -1,17 +1,10 @@
-//
-//  FlightViewModel.swift
-//  KoreaAirportInfo
-//
-//  Created by eunsoo on 5/11/25.
-//
-
 import Foundation
 
 @MainActor
 class FlightViewModel: ObservableObject {
     @Published var flights: [Flight] = []
+    @Published var airportName: String = "PUS"
     
-    var airportName: String = "PUS"
     var actDate: String
     var stHourMin: String
     var enHourMin: String
@@ -30,27 +23,33 @@ class FlightViewModel: ObservableObject {
         // MARK: - 현재 시간
         let currentTimeHHmm = timeFormatter.string(from: now)
 
-        // MARK: - -3시간 계산 (이전 날짜면 0000 고정)
-        let threeHoursBefore = calendar.date(byAdding: .hour, value: -1, to: now)!
-        let isBeforeToday = !calendar.isDate(threeHoursBefore, inSameDayAs: now)
-        let adjustedMinusDate = isBeforeToday ? calendar.date(bySettingHour: 0, minute: 0, second: 0, of: now)! : threeHoursBefore
-        let startHourMinute = timeFormatter.string(from: adjustedMinusDate)
-
-        // MARK: - +3시간 계산 (다음 날짜면 2359 고정)
-        let threeHoursLater = calendar.date(byAdding: .hour, value: 4, to: now)!
-        let isAfterToday = !calendar.isDate(threeHoursLater, inSameDayAs: now)
-        let adjustedPlusDate = isAfterToday ? calendar.date(bySettingHour: 23, minute: 59, second: 0, of: now)! : threeHoursLater
-        let endHourMinute = timeFormatter.string(from: adjustedPlusDate)
+        ///-3시간 계산 (이전 날짜면 0000 고정)
+        func getStartTime(minTime: Int) -> String {
+            let threeHoursBefore = calendar.date(byAdding: .hour, value: minTime, to: now)!
+            let isBeforeToday = !calendar.isDate(threeHoursBefore, inSameDayAs: now)
+            let adjustedMinusDate = isBeforeToday ? calendar.date(bySettingHour: 0, minute: 0, second: 0, of: now)! : threeHoursBefore
+            let startHourMinute = timeFormatter.string(from: adjustedMinusDate)
+            return startHourMinute
+        }
+        
+        ///+3시간 계산 (다음 날짜면 2359 고정)
+        func getEndTime(plusTime: Int) -> String {
+            let threeHoursLater = calendar.date(byAdding: .hour, value: plusTime, to: now)!
+            let isAfterToday = !calendar.isDate(threeHoursLater, inSameDayAs: now)
+            let adjustedPlusDate = isAfterToday ? calendar.date(bySettingHour: 23, minute: 59, second: 0, of: now)! : threeHoursLater
+            let endHourMinute = timeFormatter.string(from: adjustedPlusDate)
+            return endHourMinute
+        }
 
         // MARK: - 오늘 날짜 (yyyyMMdd 형식)
         let activeDate = dateFormatter.string(from: now)
 
         // 디버그 출력
-        print("\(startHourMinute) ~ \(endHourMinute)")
+//        print("\(startHourMinute) ~ \(endHourMinute)")
 
         // 저장
-        self.stHourMin = startHourMinute
-        self.enHourMin = endHourMinute
+        self.stHourMin = getStartTime(minTime: -1)
+        self.enHourMin = getEndTime(plusTime: 1)
         self.actDate = activeDate
         
     }
@@ -69,11 +68,7 @@ class FlightViewModel: ObservableObject {
     }
     
     func fetchFlights() async {
-//        guard let url = URL(string: "https://www.airport.co.kr/gimpo/ajaxf/frPryInfoSvc/getPryInfoList.do?pInoutGbn=O&pAirport=\(airportName.description)&pActDate=\(actDate.description)&pSthourMin=\(stHourMin.description)&pEnhourMin=\(enHourMin.description)") else {
-//            print("❌ 잘못된 URL입니다.")
-//            return
-//        }
-        guard let url = URL(string: "https://www.airport.co.kr/gimpo/ajaxf/frPryInfoSvc/getPryInfoList.do?pInoutGbn=O&pAirport=ICN&pActDate=20250830&pSthourMin=\(1000)&pEnhourMin=\(2000)") else {
+        guard let url = URL(string: "https://www.airport.co.kr/gimpo/ajaxf/frPryInfoSvc/getPryInfoList.do?pInoutGbn=O&pAirport=\(airportName.description)&pActDate=\(actDate.description)&pSthourMin=\(stHourMin.description)&pEnhourMin=\(enHourMin.description)") else {
             print("❌ 잘못된 URL입니다.")
             return
         }
@@ -90,7 +85,7 @@ class FlightViewModel: ObservableObject {
             let decoder = JSONDecoder()
             let decodedResponse = try decoder.decode(FlightListResponse.self, from: data)
             self.flights = decodedResponse.data.list
-            print("flights datas", self.flights)
+//            print("flights datas", self.flights)//불러온 데이터 전체 출력
             
         } catch {print("❌ 데이터 불러오기 실패: \(error.localizedDescription)")
         }

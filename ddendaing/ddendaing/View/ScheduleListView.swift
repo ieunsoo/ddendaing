@@ -6,6 +6,7 @@ struct ScheduleListView: View {
     @State var seletedAirport: String = "김해국제공항"
     @State var seletedAirline: Flight?
     @State private var showAlert = false
+    @State private var showBarcodeScanner = false
     
     ///picker에서 선택하기 위한 공항 종류 리스트
     var airportNames: [String] = [
@@ -121,6 +122,16 @@ struct ScheduleListView: View {
                                 }
                             }
                             Spacer()
+                            Button(action: {
+                                showBarcodeScanner.toggle()
+                            }, label: {
+                                Image(systemName: "camera.aperture")
+                            })
+                            .popover(isPresented: $showBarcodeScanner) {
+                                QRCodeScannerView()
+                            }
+                            
+                            
                             Button("새로고침"){
                                 Task{
                                     await viewModel.fetchFlights()

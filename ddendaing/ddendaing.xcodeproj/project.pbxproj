@@ -6,8 +6,41 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E0B1A39D2E62CFCC0067A1DE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0B1A39C2E62CFCC0067A1DE /* WidgetKit.framework */; };
+		E0B1A39F2E62CFCC0067A1DE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0B1A39E2E62CFCC0067A1DE /* SwiftUI.framework */; };
+		E0B1A3B02E62CFCE0067A1DE /* FlightsWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E0B1A39A2E62CFCC0067A1DE /* FlightsWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E0B1A3AE2E62CFCE0067A1DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 709A4EFD2DD381B30013854D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E0B1A3992E62CFCC0067A1DE;
+			remoteInfo = FlightsWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E0B1A3B52E62CFCE0067A1DE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E0B1A3B02E62CFCE0067A1DE /* FlightsWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		709A4F052DD381B30013854D /* ddendaing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ddendaing.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0B1A39A2E62CFCC0067A1DE /* FlightsWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FlightsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0B1A39C2E62CFCC0067A1DE /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		E0B1A39E2E62CFCC0067A1DE /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -17,6 +50,13 @@
 				Info.plist,
 			);
 			target = 709A4F042DD381B30013854D /* ddendaing */;
+		};
+		E0B1A3B42E62CFCE0067A1DE /* Exceptions for "FlightsWidget" folder in "FlightsWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = E0B1A3992E62CFCC0067A1DE /* FlightsWidgetExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -29,6 +69,14 @@
 			path = ddendaing;
 			sourceTree = "<group>";
 		};
+		E0B1A3A02E62CFCC0067A1DE /* FlightsWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E0B1A3B42E62CFCE0067A1DE /* Exceptions for "FlightsWidget" folder in "FlightsWidgetExtension" target */,
+			);
+			path = FlightsWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +87,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E0B1A3972E62CFCC0067A1DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0B1A39F2E62CFCC0067A1DE /* SwiftUI.framework in Frameworks */,
+				E0B1A39D2E62CFCC0067A1DE /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -46,6 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				709A4F072DD381B30013854D /* ddendaing */,
+				E0B1A3A02E62CFCC0067A1DE /* FlightsWidget */,
+				E0B1A39B2E62CFCC0067A1DE /* Frameworks */,
 				709A4F062DD381B30013854D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,8 +113,18 @@
 			isa = PBXGroup;
 			children = (
 				709A4F052DD381B30013854D /* ddendaing.app */,
+				E0B1A39A2E62CFCC0067A1DE /* FlightsWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E0B1A39B2E62CFCC0067A1DE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E0B1A39C2E62CFCC0067A1DE /* WidgetKit.framework */,
+				E0B1A39E2E62CFCC0067A1DE /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -68,10 +137,12 @@
 				709A4F012DD381B30013854D /* Sources */,
 				709A4F022DD381B30013854D /* Frameworks */,
 				709A4F032DD381B30013854D /* Resources */,
+				E0B1A3B52E62CFCE0067A1DE /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E0B1A3AF2E62CFCE0067A1DE /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				709A4F072DD381B30013854D /* ddendaing */,
@@ -83,6 +154,28 @@
 			productReference = 709A4F052DD381B30013854D /* ddendaing.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E0B1A3992E62CFCC0067A1DE /* FlightsWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0B1A3B12E62CFCE0067A1DE /* Build configuration list for PBXNativeTarget "FlightsWidgetExtension" */;
+			buildPhases = (
+				E0B1A3962E62CFCC0067A1DE /* Sources */,
+				E0B1A3972E62CFCC0067A1DE /* Frameworks */,
+				E0B1A3982E62CFCC0067A1DE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				E0B1A3A02E62CFCC0067A1DE /* FlightsWidget */,
+			);
+			name = FlightsWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = FlightsWidgetExtension;
+			productReference = E0B1A39A2E62CFCC0067A1DE /* FlightsWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -90,11 +183,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1630;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					709A4F042DD381B30013854D = {
 						CreatedOnToolsVersion = 16.3;
+					};
+					E0B1A3992E62CFCC0067A1DE = {
+						CreatedOnToolsVersion = 16.4;
 					};
 				};
 			};
@@ -113,12 +209,20 @@
 			projectRoot = "";
 			targets = (
 				709A4F042DD381B30013854D /* ddendaing */,
+				E0B1A3992E62CFCC0067A1DE /* FlightsWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		709A4F032DD381B30013854D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0B1A3982E62CFCC0067A1DE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,7 +239,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E0B1A3962E62CFCC0067A1DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E0B1A3AF2E62CFCE0067A1DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E0B1A3992E62CFCC0067A1DE /* FlightsWidgetExtension */;
+			targetProxy = E0B1A3AE2E62CFCE0067A1DE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		709A4F0E2DD381B40013854D /* Debug */ = {
@@ -270,8 +389,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ddendaing/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "App Transport Security Settings";
+				INFOPLIST_KEY_CFBundleDisplayName = ddendaing;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
+				INFOPLIST_KEY_NSCameraUsageDescription = "바코드 인식을 위해서 카메라를 사용합니다. ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -301,8 +421,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ddendaing/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "App Transport Security Settings";
+				INFOPLIST_KEY_CFBundleDisplayName = ddendaing;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
+				INFOPLIST_KEY_NSCameraUsageDescription = "바코드 인식을 위해서 카메라를 사용합니다. ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -315,6 +436,62 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ieunsoo.ddendaing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E0B1A3B22E62CFCE0067A1DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JKP8H87ADM;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FlightsWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FlightsWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ieunsoo.ddendaing.FlightsWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E0B1A3B32E62CFCE0067A1DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JKP8H87ADM;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FlightsWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FlightsWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ieunsoo.ddendaing.FlightsWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -338,6 +515,15 @@
 			buildConfigurations = (
 				709A4F112DD381B40013854D /* Debug */,
 				709A4F122DD381B40013854D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0B1A3B12E62CFCE0067A1DE /* Build configuration list for PBXNativeTarget "FlightsWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0B1A3B22E62CFCE0067A1DE /* Debug */,
+				E0B1A3B32E62CFCE0067A1DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
